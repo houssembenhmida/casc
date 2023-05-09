@@ -1,0 +1,11 @@
+helm repo add cloudbees https://public-charts.artifacts.cloudbees.com/repository/public/
+helm repo update
+kubectl create namespace cloudbees
+kubectl config set-context $(kubectl config current-context) --namespace=cloudbees
+kubectl create configmap oc-casc-bundle --from-file=bundle.yaml --from-file=jenkins.yaml --from-file=plugins.yaml --from-file=items.yaml -n cloudbees
+kubectl create secret generic oc-secrets --from-file=certificate --from-file=key -n cloudbees
+helm install cloudbees-core cloudbees/cloudbees-core --namespace cloudbees --values values.yaml
+helm upgrade cloudbees-core cloudbees/cloudbees-core --namespace cloudbees --values values.yaml
+
+kubectl rollout status sts cjoc --namespace cloudbees
+kubectl exec cjoc-0 --namespace cloudbees -- cat /var/jenkins_home/secrets/initialAdminPassword

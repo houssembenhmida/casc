@@ -1,0 +1,49 @@
+jenkins:
+  securityRealm:
+    ldap:
+      configurations:
+      - managerDN: "cn=admin,dc=acme,dc=org"
+        managerPasswordSecret: "test1234"
+        rootDN: "dc=acme,dc=org"
+        server: "ldap-server.ldap.svc.cluster.local"
+        userSearch: "cn={0}"
+cloudBeesCasCServer:
+  defaultBundle: "modern.parent"
+  disableRemoteValidation: false
+  visibility: true
+license:
+  certificate: "${readFile:${SECRETS}/certificate}"
+  key: "${readFile:${SECRETS}/key}"
+unclassified:
+  bundleStorageService:
+    activated: true
+    bundles:
+    - name: "default-controllers-bundles"
+      retriever:
+        SCM:
+          scmSource:
+            git:
+              id: "37eab40c-c5e6-4f1d-8eb3-b0cd72c27674"
+              remote: "https://github.com/houssembenhmida/cb-casc-controllers"
+              traits:
+              - "gitBranchDiscovery"
+    pollingPeriod: 120
+    purgeOnDeactivation: false
+  cascAutoControllerProvisioning:
+    duration: 60
+    fireAndForget: true
+    initialDelay: 15
+    provisionControllerOnCreation: true
+    timeout: 600
+  pollSCM:
+    pollingThreadCount: 10
+tool:
+  cloudbeesPluginUsageAnalyzer:
+    enabled: true
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"

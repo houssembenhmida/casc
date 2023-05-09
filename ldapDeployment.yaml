@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ldap
+  labels:
+    app: ldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ldap
+  template:
+    metadata:
+      labels:
+        app: ldap
+    spec:
+      containers:
+      - name: ldap
+        image: arlosrodlop/ooldap.debian.ub:main
+        env:
+        - name: LDAP_ADMIN_PASSWORD
+          value: "admin1234"
+        - name: LDAP_BASE_DN
+          value: "dc=acme,dc=org"
+        ports:
+        - containerPort: 389
+        

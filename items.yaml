@@ -1,0 +1,28 @@
+removeStrategy:
+  rbac: SYNC
+  items: NONE
+items:
+- kind: managedController
+  name: controller1
+  configuration:
+    kubernetes:
+      memory: 3072
+      cpus: 1.0
+      disk: 5
+      domain: controller1
+  displayName: controller1
+  properties:
+  - configurationAsCode:
+      bundle: modern.parent
+- kind: managedController
+  name: smartek-controller
+  configuration:
+    kubernetes:
+      memory: 3072
+      cpus: 1.0
+      disk: 5
+      domain: smartek-controller
+  displayName: smartek-controller
+  properties:
+  - configurationAsCode:
+      bundle: modern.smartek
