@@ -6,6 +6,10 @@ kubectl create configmap oc-casc-bundle --from-file=bundle.yaml --from-file=jenk
 kubectl create secret generic oc-secrets --from-file=certificate --from-file=key -n cloudbees
 helm install cloudbees-core cloudbees/cloudbees-core --namespace cloudbees --values values.yaml
 helm upgrade cloudbees-core cloudbees/cloudbees-core --namespace cloudbees --values values.yaml
+#upgrade oc version
+helm upgrade --install cloudbees-core cloudbees/cloudbees-core --create-namespace --namespace "cloudbees" --version "3.11963.0+e0ff1ecc63b4" -f "values_secret.yaml"
+#create velero schedule
+velero schedule create daily --schedule="@every 24h" --snapshot-volumes --include-cluster-resources
 
 kubectl rollout status sts cjoc --namespace cloudbees
 kubectl exec cjoc-0 --namespace cloudbees -- cat /var/jenkins_home/secrets/initialAdminPassword

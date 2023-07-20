@@ -10,7 +10,7 @@ jenkins:
 cloudBeesCasCServer:
   defaultBundle: "modern.parent"
   disableRemoteValidation: false
-  visibility: true
+  visibility: false
 license:
   certificate: "${readFile:${SECRETS}/certificate}"
   key: "${readFile:${SECRETS}/key}"
